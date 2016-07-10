@@ -1,0 +1,57 @@
+{
+  "intents": [
+    {
+      "intent": "OneshotReminderIntent",
+      "slots": [
+        {
+          "name": "Reminder",
+          "type": "LIST_OF_REMINDERS"
+        },
+        {
+          "name": "FirstName",
+          "type": "AMAZON.US_FIRST_NAME"
+        },
+        {
+          "name": "LastName",
+          "type": "AMAZON.LITERAL"
+        },
+        {
+          "name": "Date",
+          "type": "AMAZON.DATE"
+        }
+      ]
+    },
+    {
+      "intent": "DialogReminderIntent",
+      "slots": [
+        {
+          "name": "FirstName",
+          "type": "AMAZON.US_FIRST_NAME"
+        },
+        {
+          "name": "LastName",
+          "type": "AMAZON.LITERAL"
+        },
+        {
+          "name": "Date",
+          "type": "AMAZON.DATE"
+        }
+      ]
+    },
+    {
+      "intent": "AMAZON.NextIntent"
+    },
+    {
+      "intent": "AMAZON.PreviousIntent"
+    },
+    {
+      "intent": "AMAZON.HelpIntent"
+    },
+    {
+      "intent": "AMAZON.StopIntent"
+    },
+    {
+      "intent": "AMAZON.CancelIntent"
+    }
+  ]
+}

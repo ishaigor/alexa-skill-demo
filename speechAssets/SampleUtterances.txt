@@ -1,0 +1,73 @@
+DialogReminderIntent {Reminder} {FirstName}
+DialogReminderIntent {Reminder} {FirstName} {LastName}
+DialogReminderIntent {Reminder} {Date}
+
+OneshotReminderIntent get {Reminder}
+OneshotReminderIntent get {Reminder} for {FirstName} {LastName}
+OneshotReminderIntent get {Reminder} for {FirstName} {LastName} {Date}
+OneshotReminderIntent get {Reminder} for {FirstName} {Date}
+OneshotReminderIntent get {Reminder} for {Date}
+OneshotReminderIntent get {Reminder} {Date}
+OneshotReminderIntent get the {Reminder} for {FirstName} {Date}
+OneshotReminderIntent get the next {Reminder} for {FirstName} for {Date}
+OneshotReminderIntent get the {Reminder} for {Date}
+OneshotReminderIntent get {Reminder} information for {FirstName}
+OneshotReminderIntent get {Reminder} information for {FirstName} {LastName}
+OneshotReminderIntent get {Reminder} information for {FirstName} {LastName} on {Date}
+OneshotReminderIntent get {Reminder} information for {FirstName}
+OneshotReminderIntent get {Reminder} information for {FirstName} for {Date}
+OneshotReminderIntent get {Reminder} information for {FirstName} on {Date}
+OneshotReminderIntent get {Reminder} information for {FirstName} {Date}
+OneshotReminderIntent get {Reminder} for {FirstName}
+OneshotReminderIntent get {Reminder} for {FirstName} {LastName}
+OneshotReminderIntent get {Reminder} for {FirstName} {LastName} {Date}
+OneshotReminderIntent get {Reminder} for {FirstName} {Date}
+OneshotReminderIntent {Reminder} information
+OneshotReminderIntent {Reminder} information for {FirstName}
+OneshotReminderIntent {Reminder} information for {FirstName} {LastName}
+OneshotReminderIntent {Reminder} information for {FirstName} on {Date}
+OneshotReminderIntent {Reminder} information for {Date}
+OneshotReminderIntent what is {Reminder} for {FirstName} {Date}
+OneshotReminderIntent when is {Reminder} in {FirstName}
+OneshotReminderIntent when is {Reminder} in {FirstName} {LastName}
+OneshotReminderIntent when is {Reminder} in {FirstName}
+OneshotReminderIntent what is {Reminder} in {FirstName} on {Date}
+OneshotReminderIntent what is {Reminder} on {Date}
+OneshotReminderIntent what is {Reminder} {Date}
+OneshotReminderIntent when is next {Reminder}
+OneshotReminderIntent when is next {Reminder} in {FirstName} {LastName}
+OneshotReminderIntent what is next {Reminder} in {FirstName} {LastName} on {Date}
+OneshotReminderIntent what is next {Reminder} on {Date}
+OneshotReminderIntent when is the highest {Reminder} in {FirstName}
+OneshotReminderIntent what is the highest {Reminder} in {FirstName} {Date}
+OneshotReminderIntent what is the highest {Reminder} {Date}
+OneshotReminderIntent when is the next {Reminder} {Date}
+OneshotReminderIntent when is the next {Reminder} for {FirstName}
+OneshotReminderIntent when is the next {Reminder} for {FirstName} {LastName}
+OneshotReminderIntent when is the next {Reminder} for {FirstName}
+OneshotReminderIntent what is the next {Reminder} for {FirstName} for {Date}
+OneshotReminderIntent when is the next {Reminder} for {Date}
+OneshotReminderIntent what is today's {Reminder}
+OneshotReminderIntent what is {Reminder} on {Date}
+OneshotReminderIntent what is the next {Reminder} for {Date}
+OneshotReminderIntent what is next {Reminder} on {Date}
+OneshotReminderIntent get the {Reminder} for {Date}
+OneshotReminderIntent what is {Reminder} on {Date}
+OneshotReminderIntent get {Reminder} for {Date}
+OneshotReminderIntent get {Reminder} {Date}
+OneshotReminderIntent what is {Reminder} {Date}
+OneshotReminderIntent {Reminder} information for {Date}
+OneshotReminderIntent what is {Reminder} in {FirstName} on {Date}
+OneshotReminderIntent get the next {Reminder} for {FirstName} for {Date}
+OneshotReminderIntent get {Reminder} for {FirstName} California {Date}
+OneshotReminderIntent what is {Reminder} for {FirstName} {Date}
+OneshotReminderIntent {Reminder} information for {FirstName} on {Date}
+OneshotReminderIntent what is {Reminder} in {FirstName} on {Date}
+OneshotReminderIntent what is the next {Reminder} for {FirstName} for {Date}
+OneshotReminderIntent what is next {Reminder} in {FirstName} {LastName} on {Date}
+OneshotReminderIntent get {Reminder} for {FirstName} {Date}
+OneshotReminderIntent get the {Reminder} for {FirstName} {Date}
+OneshotReminderIntent {Reminder} information for {FirstName} on {Date}
+OneshotReminderIntent get {Reminder} information for {FirstName} on {Date}
+OneshotReminderIntent get {Reminder} for {FirstName} {Date}
+
