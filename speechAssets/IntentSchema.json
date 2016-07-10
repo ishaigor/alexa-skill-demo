@@ -25,6 +25,10 @@
       "intent": "DialogReminderIntent",
       "slots": [
         {
+          "name": "Reminder",
+          "type": "LIST_OF_REMINDERS"
+        },
+        {
           "name": "FirstName",
           "type": "AMAZON.US_FIRST_NAME"
         },
