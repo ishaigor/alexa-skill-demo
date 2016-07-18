@@ -14,7 +14,7 @@ This sample shows how to create a Lambda function for handling Alexa Skill reque
 - Pre-recorded audio: Uses the SSML 'audio' tag to include an ocean wave sound in the welcome response.
 
 ## Setup
-To run this example skill you need to do two things. The first is to deploy the example code in lambda, and the second is to configure the Alexa skill to use Lambda.
+To run this example skill you need to do three things. The first is to deploy the example code in lambda, the second is to configure the Alexa skill to use Lambda, and the third is to create Google API project with credentials of type OAuth client ID. .
 
 ### AWS Lambda Setup
 1. Go to the AWS Console and click on the Lambda link. Note: ensure you are in us-east or you won't be able to use Alexa with Lambda.
@@ -39,11 +39,19 @@ To run this example skill you need to do two things. The first is to deploy the 
 4. Copy the custom slot types from the customSlotTypes folder. Each file in the folder represents a new custom slot type. The name of the file is the name of the custom slot type, and the values in the file are the values for the custom slot.
 5. Copy the Intent Schema from the included IntentSchema.json.
 6. Copy the Sample Utterances from the included SampleUtterances.txt. Click Next.
-7. [optional] go back to the skill Information tab and copy the appId. Paste the appId into the index.js file for the variable APP_ID,
+7. [optional] go back to account linking set-up and add Google API client details in addition to the [OAuth API end-point](https://accounts.google.com/o/oauth2/token) 
+
+8. [optional] go back to the skill Information tab and copy the appId. Paste the appId into the index.js file for the variable APP_ID,
    then update the lambda source zip file with this change and upload to lambda again, this step makes sure the lambda function only serves request from authorized source.
-8. You are now able to start testing your sample skill! You should be able to go to the [Echo webpage](http://echo.amazon.com/#skills) and see your skill enabled.
-9. In order to test it, try to say some of the Sample Utterances from the Examples section below.
-10. Your skill is now saved and once you are finished testing you can continue to publish your skill.
+9. You are now able to start testing your sample skill! You should be able to go to the [Echo webpage](http://echo.amazon.com/#skills) and see your skill enabled.
+10. In order to test it, try to say some of the Sample Utterances from the Examples section below.
+11. Your skill is now saved and once you are finished testing you can continue to publish your skill.
+
+### Google API project Setup
+1. Follow the [article](https://developers.google.com/identity/sign-in/web/devconsole-project) on creating new project with OAuth Client ID.
+    1. Use scope https://www.googleapis.com/auth/calendar.readonly
+    2. Use domain as specified in lambda.  
+    3. Use redirect URL as specified in lambda. Redirect URL may look like https://pitangui.amazon.com/spa/skill/account-linking-status.html?vendorId=AAAAAAAAAAAAAA&state=xyz&code=SplxlOBeZQQYbYS6WxSbIA.
 
 ## Examples
 Example user interactions:
@@ -57,5 +65,5 @@ Example user interactions:
     Alexa: "Welcome to Google Birthday Reminder. What contact or date would you like reminders for?"
     User:  "John"
     Alexa: "John who?"
-    User:  "Now"
+    User:  "Snow"
     Alexa: "Saturday June 20th is the aniversary of John Snow ..."
