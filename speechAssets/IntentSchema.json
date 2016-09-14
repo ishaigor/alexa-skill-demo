@@ -12,10 +12,6 @@
           "type": "AMAZON.US_FIRST_NAME"
         },
         {
-          "name": "LastName",
-          "type": "AMAZON.LITERAL"
-        },
-        {
           "name": "Date",
           "type": "AMAZON.DATE"
         }
@@ -33,10 +29,6 @@
           "type": "AMAZON.US_FIRST_NAME"
         },
         {
-          "name": "LastName",
-          "type": "AMAZON.LITERAL"
-        },
-        {
           "name": "Date",
           "type": "AMAZON.DATE"
         }
@@ -50,6 +42,9 @@
     },
     {
       "intent": "AMAZON.HelpIntent"
+    },
+    {
+      "intent": "AMAZON.StartOverIntent"
     },
     {
       "intent": "AMAZON.StopIntent"
