@@ -13,7 +13,10 @@ This sample shows how to create a Lambda function for handling Alexa Skill reque
   examples section for sample interactions of these models.
 
 ## Setup
-To run this example skill you need to do three things. The first is to deploy the example code in lambda, the second is to configure the Alexa skill to use Lambda, and the third is to create Google API project with credentials of type OAuth client ID. .
+To run this example skill you need to do three things. 
+- The first is to deploy the example code in lambda.
+- the second is to configure the Alexa skill to use Lambda.
+- And the third is to create Google API project with credentials of type OAuth client ID.
 
 ## Build scritp
 To get build going copy alexa_config.bash.sample to alexa_config.bash. Replace placeholders with the actual values
