@@ -16,6 +16,10 @@ This sample shows how to create a Lambda function for handling Alexa Skill reque
 ## Setup
 To run this example skill you need to do three things. The first is to deploy the example code in lambda, the second is to configure the Alexa skill to use Lambda, and the third is to create Google API project with credentials of type OAuth client ID. .
 
+## Build scritp
+To get build going copy alexa_config.bash.sample to alexa_config.bash. Replace placeholders with the actual values
+Use package.sh to create deployable package each time you make changes under bin
+
 ### AWS Lambda Setup
 1. Go to the [AWS Console](https://aws.amazon.com/console/) and click on the Lambda link. Note: ensure you are in us-east or you won't be able to use Alexa with Lambda.
 2. Click on the Create a Lambda Function or Get Started Now button.

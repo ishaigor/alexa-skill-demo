@@ -11,7 +11,7 @@
 /**
  * This sample shows how to create a Lambda function for handling Alexa Skill requests that:
  * - Web service: communicate with an external web service to get calendar data from the [Google API](https://developers.google.com/google-apps/calendar/)
- * - Multiple optional slots: has 4 slots (reminder type, first name, last name, and date), where the user can provide 0, 1, 2, 3 or 4 values, and assumes defaults for the unprovided values
+ * - Multiple optional slots: has 3 slots (reminder type, first name, and date), where the user can provide 0, 1, 2, or 3 values, and assumes defaults for the unprovided values
  * - DATE slot: demonstrates date handling and formatted date responses appropriate for speech
  * - Custom slot type: demonstrates using custom slot types to handle a finite set of known values
  * - Dialog and Session state: Handles two models, both a one-shot ask and tell model, and a multi-turn dialog model.
@@ -20,22 +20,20 @@
  *
  * Examples:
  * One-shot model:
- *  User:  "Alexa, ask Google Birthday Reminder for the birthday of John Snow"
+ *  User:  "Alexa, ask Google Birthday Reminder for the birthday of John"
  *  Alexa: "Saturday June 20th is the birthday of John Snow ..."
  * Dialog model:
  *  User:  "Alexa, open Google Birthday Reminder"
  *  Alexa: "Welcome to Google Birthday Reminder. What contact or date would you like reminders for?"
  *  User:  "John"
- *  Alexa: "John who?"
- *  User:  "Snow"
  *  Alexa: "Saturday June 20th is the birthday of John Snow ..."
  */
 
 /**
  * App ID for the skill
  */
-var APP_ID = ''; // TODO fill in the value
-
+var APP_ID = '%%APP_ID%%'; // package script will fill in
+var API_KEY = '%%API_KEY%%'; // package script will fill in
 var alexaDateUtil = require('./alexaDateUtil');
 
 
@@ -82,22 +80,26 @@ GoogleBirthdayReminder.prototype.eventHandlers.onSessionEnded = function (sessio
  */
 GoogleBirthdayReminder.prototype.intentHandlers = {
     "OneshotReminderIntent": function (intent, session, response) {
-        handleOneshotRemonderRequest(intent, session, response);
+        handleOneshotReminderRequest(intent, session, response);
     },
 
     "DialogReminderIntent": function (intent, session, response) {
         // Determine if this turn is for name, for date, or an error.
         // We could be passed slots with values, no slots, slots with no value.
         var firstNameSlot = intent.slots.FirstName;
-        var lastNameSlot = intent.slots.LastName;
         var dateSlot = intent.slots.Date;
         var typeSlot = intent.slots.Reminder;
         console.log("DialogReminderIntent firstNameSlot: " + firstNameSlot
-            + ", lastNameSlot: " + lastNameSlot + ", dateSlot:" + dateSlot + ", " + "typeSlot: " + typeSlot);
+            + ", dateSlot:" + dateSlot + ", " + "typeSlot: " + typeSlot);
         handleDialogRequest(intent,session,response);
     },
 
     "AMAZON.HelpIntent": function (intent, session, response) {
+        console.log("Help");
+        handleHelpRequest(session, response, "");
+    },
+
+    "AMAZON.StartOverIntent": function (intent, session, response) {
         console.log("Help");
         handleHelpRequest(session, response, "");
     },
@@ -116,7 +118,7 @@ GoogleBirthdayReminder.prototype.intentHandlers = {
 
     "AMAZON.NextIntent": function (intent, session, response) {
         console.log("Next");
-        if (session.attributes.currentReminder != null && session.attributes.currentReminder !== undefined)
+        if (session.attributes.currentReminder !== null && session.attributes.currentReminder !== undefined)
         {
             session.attributes.currentReminder = session.attributes.currentReminder + 1;
         }
@@ -125,7 +127,7 @@ GoogleBirthdayReminder.prototype.intentHandlers = {
 
     "AMAZON.PreviousIntent": function (intent, session, response) {
         console.log("Previous");
-        if (session.attributes.currentReminder != null && session.attributes.currentReminder !== undefined)
+        if (session.attributes.currentReminder !== null && session.attributes.currentReminder !== undefined)
         {
             session.attributes.currentReminder = session.attributes.currentReminder - 1;
         }
@@ -172,7 +174,7 @@ function handleHelpRequest(session, response, welcomePropmt) {
 };
 
 function getAccessToken(session) {
-    return session.user.accessToken;
+    return (session && session.user && session.user.accessToken) ? session.user.accessToken : undefined;
 }
 
 function handleDialogRequest(intent, session, response) {
@@ -182,7 +184,7 @@ function handleDialogRequest(intent, session, response) {
         reminderType = getTypeFromIntentOrSession(intent, session),
         repromptText,
         speechOutput;
-    console.log("nameState:" + nameState.firstName + " " + nameState.lastName);
+    console.log("nameState:" + nameState.firstName );
     if (nameState.error && !date.displayDate) {
         repromptText = "Currently, I find reminders for contact name or date: "
             + "What name should I look up?";
@@ -193,7 +195,7 @@ function handleDialogRequest(intent, session, response) {
     }
     // if we don't have a date yet, go to date. If we have a date, we perform the final request
     if (date.displayDate || nameState.name) {
-        getFinalResponse(nameState.name, date, reminderType, response, session);
+        getFinalResponse(nameState.name, date.rowDate, reminderType, response, session);
     } else {
         // set name and type in session and prompt for date
         speechOutput = "For which date ?";
@@ -208,7 +210,7 @@ function handleDialogRequest(intent, session, response) {
  * 'Alexa, open Google Birthday Reminder and get birthdays for Saturday'.
  * If there is an error in a slot, this will guide the user to the dialog approach.
  */
-function handleOneshotRequest(intent, session, response) {
+function handleOneshotReminderRequest(intent, session, response) {
     console.log("handleOneshotRequest");
 
     // Determine name, date, and type using default if none provided
@@ -228,7 +230,7 @@ function handleOneshotRequest(intent, session, response) {
 
     // Determine  date
     if (!date.displayDate) {
-        // Invalid date. set city in session and prompt for date
+        // Invalid date. set name in session and prompt for date
         repromptText = "Please try again saying for which day, for example, Saturday. "
             + "For which date would you like " + reminderType +"?";
         speechOutput = "I'm sorry, I didn't understand that date. " + repromptText;
@@ -238,7 +240,7 @@ function handleOneshotRequest(intent, session, response) {
     }
 
     // all slots filled, either from the user or by default values. Move to final request
-    getFinalResponse(nameState.name, date, type, response, session);
+    getFinalResponse(nameState.name, date.rowDate, reminderType, response, session);
 }
 
 /**
@@ -248,25 +250,35 @@ function handleOneshotRequest(intent, session, response) {
 function getFinalResponse(name, date, reminderType, response, session) {
     console.log("getFinalResponse: name=" + name + ", date="+date+", type="+reminderType);
 
-    // Issue the request, and respond to the user
-    makeReminderRequest(name, date, reminderType, function apiResponseCallback(err, apiResponse) {
-        var speechOutput;
+    try
+    {
+        // Issue the request, and respond to the user
+        makeReminderRequest(getAccessToken(session), name, date, reminderType, function apiResponseCallback(err, apiResponse) {
+            var speechOutput;
 
-        if (err) {
-            console.log("makeReminderRequest err" + err);
-            speechOutput = "Sorry, the GoogleAPI service is experiencing a problem. Please try again later";
-            response.tell(speechOutput)
-            return;
-        } else {
-            // TODO
-            console.log("makeReminderRequest apiResponse" + apiResponse);
-            session.attributes.reminders = apiResponse.reminders; // TODO check
-            session.attributes.currentReminder = 0;
+            if (err) {
+                console.log("makeReminderRequest err" + err);
+                speechOutput = "Sorry, the GoogleAPI service is experiencing a problem. Please try again later";
+                response.tell(speechOutput)
+                return;
+            } else {
+                // TODO
+                console.log("makeReminderRequest apiResponse" + apiResponse);
+                session.attributes.reminders = apiResponse.items;
+                session.attributes.currentReminder = 0;
 
-            handleReminderRequest(session,response, true);
-        }
+                handleReminderRequest(session,response, true);
+            }
 
-    });
+        });
+    }
+    catch(err)
+    {
+        console.log("makeReminderRequest err" + err);
+        speechOutput = "Sorry, the GoogleAPI service is experiencing a problem. Please try again later";
+        response.tell(speechOutput)
+        return;
+    }
 }
 
 function handleReminderRequest(session, response, firstTime)
@@ -277,11 +289,24 @@ function handleReminderRequest(session, response, firstTime)
     // TODO fix
     if (firstTime)
     {
-        speechOutput = "On " + session.attributes.Date.displayDate + " "
-            + session.attributes.reminderType
-            + " for " + session.attributes.name + ",  ";
+        if (session.attributes.Date.displayDate)
+        {
+            speechOutput = "On " + session.attributes.Date.displayDate + " "
+        }
+        if (session.attributes.reminderType)
+        {
+            speechOutput = speechOutput
+                + session.attributes.reminderType + " "
+        }
+        if (session.attributes.name)
+        {
+            speechOutput = speechOutput
+            + "for " + session.attributes.name + ",  ";
+        }
     }
 
+    console.log("reminders.length: " + (session.attributes.reminders ? session.attributes.reminders.length : -1));
+    console.log("currentReminder: " + session.attributes.currentReminder);
     if (!session.attributes.reminders || session.attributes.reminders.length == 0 ||
         session.attributes.currentReminder == null || session.attributes.currentReminder === undefined
         || session.attributes.currentReminder < 0
@@ -289,9 +314,9 @@ function handleReminderRequest(session, response, firstTime)
         || !session.attributes.reminders[session.attributes.currentReminder])
     {
         console.log("Not found");
-        session.attributes.currentReminder = 0;
         if (firstTime)
         {
+            session.attributes.currentReminder = 0;
             speechOutput = speechOutput + " reminders not found";
             repromptSpeech = "Stop?";
         }
@@ -312,30 +337,21 @@ function handleReminderRequest(session, response, firstTime)
         console.log("found");
         var reminder = session.attributes.reminders[session.attributes.currentReminder];
         var reminders = session.attributes.reminders;
-        if (reminder.photo.mediumUrl && reminder.photo.mediumUrl.length > 5 && reminder.photo.mediumUrl.substring(0,5) == "http:")
-        {
-            reminder.photo.mediumUrl = "https:" + reminder.photo.mediumUrl.substring(5);
-        }
-        if (reminder.photo.largeUrl && reminder.photo.largeUrl.length > 5 && reminder.photo.largeUrl.substring(0,5) == "http:" )
-        {
-            reminder.photo.largeUrl = "https:" + reminder.photo.largeUrl.substring(5);
-        }
-        console.log("smallUrl:"+reminder.photo.mediumUrl);
-        console.log("largeUrl:"+reminder.photo.largeUrl);
-
-
-        speechOutput = speechOutput + reminder.name + " for " + reminder.calculatedRates.value + " "
-            + reminder.calculatedRates.currency + " " + reminder.calculatedRates.periodicity.toLowerCase() + ". ";
+        var photo = reminder.gadget.preferences["goo.contactsPhotoUrl"];
+/*        var photo = 'https://www.google.com/m8/feeds/photos/media/default/contactId/' +
+            reminder.gadget.preferences["goo.contactsContactId"];
+*/
+        speechOutput = speechOutput + reminder.summary;
 
         repromptSpeech = ((reminders.length + 1 > session.attributes.currentReminder) ? "Next, " : "" )
-            + (session.attributes.currentReminder > 0? "Previous," :"") + "Save? Message owner?";
+            + (session.attributes.currentReminder > 0? "Previous," :"") ;
 
-        var cardTitle = reminder.name + " " + reminder.type; // TODO
+        var cardTitle = reminder.summary;
 
         var cardContent = cardTitle;
 
         response.askWithCard(speechOutput, repromptSpeech, cardTitle,cardContent,
-            reminder.photo.mediumUrl, reminder.photo.largeUrl)
+            photo, photo)
     }
 };
 
@@ -345,15 +361,12 @@ function handleReminderRequest(session, response, firstTime)
 function getNameStateFromIntentOrSession(intent, session, assignDefault) {
     console.log("getNameStateFromIntentOrSession");
     var firstNameSlot = intent.slots.FirstName;
-    var lastNameSlot = intent.slots.LastName;
     // slots can be missing, or slots can be provided but with empty value.
     // must test for both.
     var firstName = (firstNameSlot && firstNameSlot.value) ? firstNameSlot.value : session.attributes.firstName;
-    var lastName = (lastNameSlot && lastNameSlot.value) ? lastNameSlot.value : session.attributes.lastName;
     session.attributes.firstName = firstName;
-    session.attributes.lastName = lastName;
-    console.log("firstName:"+firstName+", lastName"+lastName);
-    if (!firstName && !lastName) {
+    console.log("firstName:"+firstName);
+    if (!firstName ) {
         return {
             error: true
         }
@@ -361,8 +374,7 @@ function getNameStateFromIntentOrSession(intent, session, assignDefault) {
         // lookup the name.
         return {
             firstName: firstName,
-            lastName: lastName,
-            name: firstName + " " + lastName
+            name: firstName
         }
     }
 }
@@ -374,11 +386,12 @@ function getNameStateFromIntentOrSession(intent, session, assignDefault) {
 function getDateFromIntentOrSession(intent, session) {
     console.log("getDateFromIntent");
 
-    var dateSlot = intent.slots[dateType + "Date"];
+    var dateSlot = intent.slots["Date"];
     // slots can be missing, or slots can be provided but with empty value.
     // must test for both.
     var displayDate = null;
     var requestDateParam = null;
+    var rowDate = null;
 
     if (dateSlot && dateSlot.value) {
         var date = new Date(dateSlot.value);
@@ -393,12 +406,14 @@ function getDateFromIntentOrSession(intent, session) {
 
         displayDate = alexaDateUtil.getFormattedDate(date);
         requestDateParam = requestDay;
+        rowDate = date;
     }
     else if (session.attributes.Date && session.attributes.Date.displayDate
         && session.attributes.Date.requestDateParam)
     {
         displayDate = session.attributes.Date.displayDate;
         requestDateParam= session.attributes.Date.requestDateParam;
+        rowDate=session.attributes.Date.rowDate;
     }
     else
     {
@@ -408,7 +423,8 @@ function getDateFromIntentOrSession(intent, session) {
     }
     session.attributes.Date = {
         displayDate: displayDate,
-        requestDateParam: requestDateParam
+        requestDateParam: requestDateParam,
+        rowDate: rowDate
     };
     console.log("alexa date" + session.attributes.Date.displayDate);
     return session.attributes.Date;
@@ -432,38 +448,70 @@ function getTypeFromIntentOrSession(intent, session) {
     session.attributes.reminderType = reminderType;
     console.log("reminderType:"+reminderType);
     if (!reminderType ) {
-            // For sample skill, default to Seattle.
+            // For sample skill, default to reminders.
             return "reminders";
 
     } else {
-        // lookup the city and state.
-        return reminder;
+        // lookup the reminder type.
+        return reminderType;
     }
 };
 
 //-------------------------- GoogleAPI Calls --------------------------
-var request = require('request');
+//var request = require('request');
+var http = require('https');
 
-function makeReminderRequest(name, date, reminderType, apiResponseCallback) {
+function makeReminderRequest(token, name, date, reminderType, apiResponseCallback) {
+    var toDate =  new Date();
+    toDate.setTime(date.getTime() + 1*24*60*60*1000);
+
+    console.log("date:"+date);
 // Set the headers
     var headers = {
-//    'User-Agent':       'Super Agent/0.0.1',
-        'Content-Type':     'application/x-www-form-urlencoded'
+        'Authorization': 'Bearer ' + token
     }
 
 // Configure the request
     var options = {
-        url: encodeURI('https://www.googleapis.com/calendar/v3/calendars/' + calendarid+ '/events?key=' + mykey),
-        method: 'POST',
-        headers: headers,
-        form: {'key1': 'xxx', 'key2': 'yyy'}
+        host: "www.googleapis.com",
+        port:"443",
+        path:'/calendar/v3/calendars/%23contacts%40group.v.calendar.google.com/events?'+
+            'timeMax=' + toDate.toISOString() + '&timeMin=' + date.toISOString() +'&key=' + API_KEY,
+        method: 'GET',
+        headers: headers
     }
 
+    console.log("https://"+options.host+":"+options.port+options.path);
+    console.log('Authorization:' + headers['Authorization']);
+
 // Start the request
-    request(options, function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-            // Print out the response body
-            console.log(body)
+    var req = http.request(options, function (res) {
+        var googleResponseString = '';
+        console.log('Status Code: ' + res.statusCode);
+
+        if (res.statusCode != 200) {
+            apiResponseCallback(new Error("Non 200 Response"));
         }
+
+        res.on('data', function (data) {
+            console.log('data: ' + data);
+            googleResponseString += data;
+        });
+
+        res.on('end', function () {
+            var googleResponseObject = JSON.parse(googleResponseString);
+
+            if (googleResponseObject.error) {
+                console.log("Google error: " + googleResponseObject.error.message);
+                apiResponseCallback(new Error(googleResponseObject.error.message));
+            } else {
+                apiResponseCallback(null, googleResponseObject);
+            }
+        });
     });
+    req.on('error', function (e) {
+        console.log("Communications error: " + e.message);
+        apiResponseCallback(new Error(e.message));
+    });
+    req.end();
 };

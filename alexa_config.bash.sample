@@ -1,0 +1,5 @@
+#!/bin/bash
+export API_KEY='<Google API key>'
+export Client_ID='<Google API OAuth Client ID>'
+export Client_secret='<Google API OAuth Client Secret>'
+export APP_ID='<Amazon Skill ID>'
