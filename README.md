@@ -48,7 +48,7 @@ Use package.sh to create deployable package each time you make changes under bin
 
 ### Alexa Skill Setup
 1. Go to the [Alexa Console](https://developer.amazon.com/edw/home.html#/skills/list) and click Add a New Skill.
-2. Set "Google Birthday Reminder" for the skill name and "google birthday reminder" as the invocation name, this is what is used to activate your skill. For example you would say: "Alexa, Ask google birthday reminder when is birthday of John."
+2. Set "Google Birthday Reminder" for the skill name and "google reminder" as the invocation name, this is what is used to activate your skill. For example you would say: "Alexa, Ask google reminder when is birthday of John."
 3. Copy the Intent Schema from the included IntentSchema.json.
 4. Copy the custom slot types from the customSlotTypes folder. Each file in the folder represents a new custom slot type. The name of the file is the name of the custom slot type, and the values in the file are the values for the custom slot.
 5. Copy the Sample Utterances from the included SampleUtterances.txt. Click Next.
@@ -60,15 +60,21 @@ Use package.sh to create deployable package each time you make changes under bin
 10. In order to test it, try to say some of the Sample Utterances from the Examples section below.
 11. Your skill is now saved and once you are finished testing you can continue to publish your skill.
 
+### Skill Pre-set on the Device
+Please note that account linking does not work on the test simulator. You'll have to set-up real device or mock the service.
+1. Before being able to use the skill, ask Alexa for help with it.
+2. Open Companion App or it's browser counterpart [Echo webpage](http://echo.amazon.com/#skills) 
+3. Follow account linking prompt on the card shown and set-up the link with the desired Google account
+
 ## Examples
 Example user interactions:
 
 ### One-shot model:
-    User:  "Alexa, ask Google Birthday Reminder when is the anniversary of John"
+    User:  "Alexa, ask Google Reminder when is the anniversary of John"
     Alexa: "Saturday June 20th is the aniversary of John Snow ..."
 
 ### Dialog model:
-    User:  "Alexa, open Google Birthday Reminder"
-    Alexa: "Welcome to Google Birthday Reminder. What contact or date would you like reminders for?"
+    User:  "Alexa, open Google Reminder"
+    Alexa: "Welcome to Google Reminder. What contact or date would you like reminders for?"
     User:  "John"
     Alexa: "Saturday June 20th is the aniversary of John Snow ..."
