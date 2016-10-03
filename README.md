@@ -42,8 +42,8 @@ Use package.sh to create deployable package each time you make changes under bin
 1. Follow the [article](https://developers.google.com/identity/sign-in/web/devconsole-project) on creating new project with OAuth Client ID and API browser key.
     1. OAuth client ID alexa-skill
     2. Use scope https://www.googleapis.com/auth/calendar.readonly and https://www.googleapis.com/auth/contacts.readonly
-    3. Use domain as specified in lambda.  
-    4. Use redirect URL as specified in lambda. Redirect URL may look like https://pitangui.amazon.com/spa/skill/account-linking-status.html?vendorId=AAAAAAAAAAAAAA&state=xyz&code=SplxlOBeZQQYbYS6WxSbIA.
+    3. Use domain as specified for skill's acount linking.  
+    4. Use redirect URL as specified for skill's acount linking. Redirect URL may look like https://pitangui.amazon.com/spa/skill/account-linking-status.html?vendorId=AAAAAAAAAAAAAA&state=xyz&code=SplxlOBeZQQYbYS6WxSbIA.
     5. Allow access to calendar and contacts API for the project by accessing Enable API via project Dashboard
 
 ### Alexa Skill Setup
