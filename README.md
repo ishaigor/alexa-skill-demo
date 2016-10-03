@@ -62,6 +62,7 @@ Use package.sh to create deployable package each time you make changes under bin
 
 ### Skill Pre-set on the Device
 Please note that account linking does not work on the test simulator. You'll have to set-up real device or mock the service.
+
 1. Before being able to use the skill, ask Alexa for help with it.
 2. Open Companion App or it's browser counterpart [Echo webpage](http://echo.amazon.com/#skills) 
 3. Follow account linking prompt on the card shown and set-up the link with the desired Google account
