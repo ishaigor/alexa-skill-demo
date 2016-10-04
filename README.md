@@ -18,7 +18,7 @@ To run this example skill you need to do three things.
 - the second is to configure the Alexa skill to use Lambda.
 - And the third is to create Google API project with credentials of type OAuth client ID.
 
-## Build scritp
+## Build script
 To get build going copy alexa_config.bash.sample to alexa_config.bash. Replace placeholders with the actual values
 Use package.sh to create deployable package each time you make changes under bin
 
@@ -28,8 +28,7 @@ Use package.sh to create deployable package each time you make changes under bin
 3. Skip the blueprint
 4. Name the Lambda Function "Goole-Birthday-Reminder-Example-Skill".
 5. Select the runtime as Node.js
-6. Go to the the src directory, select all files and then create a zip file, make sure the zip file does not contain the src directory itself, otherwise Lambda function will not work.
-7. Select Code entry type as "Upload a .ZIP file" and then upload the .zip file to the Lambda
+7. Select Code entry type as "Upload a .ZIP file" and then upload the bin/demo.zip file to the Lambda
 8. Keep the Handler as index.handler (this refers to the main js file in the zip).
 9. Create a basic execution role and click create.
 10. Leave the Advanced settings as the defaults.
@@ -53,9 +52,13 @@ Use package.sh to create deployable package each time you make changes under bin
 4. Copy the custom slot types from the customSlotTypes folder. Each file in the folder represents a new custom slot type. The name of the file is the name of the custom slot type, and the values in the file are the values for the custom slot.
 5. Copy the Sample Utterances from the included SampleUtterances.txt. Click Next.
 6. Select the Lambda ARN for the skill Endpoint and paste the ARN copied from above. Click Next.
-7. Account linking: Yes. Authorization URL [Authorization URL](https://accounts.google.com/o/oauth2/auth), [Access Token URI](https://accounts.google.com/o/oauth2/token). Scope  https://www.googleapis.com/auth/calendar.readonly, and https://www.googleapis.com/auth/contacts.readonly. Use client ID and secret as created for the Google Dev project.
-8. Go back to the skill Information tab and copy the appId. Paste the appId into the index.js file for the variable APP_ID,
-   then update the lambda source zip file with this change and upload to lambda again, this step makes sure the lambda function only serves request from authorized source.
+7. Account linking: Yes. 
+    1. Authorization URL: https://accounts.google.com/o/oauth2/auth
+    2. Access Token URI: https://accounts.google.com/o/oauth2/token
+    3. Scope:  https://www.googleapis.com/auth/calendar.readonly, and https://www.googleapis.com/auth/contacts.readonly. 
+    4. Use client ID and secret as created for the Google Dev project.
+8. Go back to the skill Information tab and copy the appId. Paste the appId into the alexa_config.bash file for the variable APP_ID,
+   then update the lambda source zip file with this change by running package.sh. Finally, upload to lambda again, this step makes sure the lambda function only serves request from authorized source.
 9. You are now able to start testing your sample skill! You should be able to go to the [Echo webpage](http://echo.amazon.com/#skills) and see your skill enabled.
 10. In order to test it, try to say some of the Sample Utterances from the Examples section below.
 11. Your skill is now saved and once you are finished testing you can continue to publish your skill.
