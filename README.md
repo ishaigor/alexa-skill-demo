@@ -2,6 +2,8 @@
 A simple [AWS Lambda](http://aws.amazon.com/lambda) function that demonstrates how to write a skill for the Amazon Echo using the Alexa SDK.
 
 ## Concepts
+This is supplemental code for [Building Skills for Amazon Echo](https://dzone.com/articles/building-skills-for-amazon-echo)
+
 This sample shows how to create a Lambda function for handling Alexa Skill requests that:
 
 - Web service: communicate with an external web service to get calendar data from the [Google API](https://developers.google.com/google-apps/calendar/)
@@ -47,7 +49,7 @@ Use package.sh to create deployable package each time you make changes under bin
 
 ### Alexa Skill Setup
 1. Go to the [Alexa Console](https://developer.amazon.com/edw/home.html#/skills/list) and click Add a New Skill.
-2. Set "Google Birthday Reminder" for the skill name and "google reminder" as the invocation name, this is what is used to activate your skill. For example you would say: "Alexa, Ask google reminder when is birthday of John."
+2. Set "Google Birthday Reminder" for the skill name and "google reminder" as the invocation name, this is what is used to activate your skill. For example, you would say: "Alexa, Ask google reminder when is birthday of John."
 3. Copy the Intent Schema from the included IntentSchema.json.
 4. Copy the custom slot types from the customSlotTypes folder. Each file in the folder represents a new custom slot type. The name of the file is the name of the custom slot type, and the values in the file are the values for the custom slot.
 5. Copy the Sample Utterances from the included SampleUtterances.txt. Click Next.
